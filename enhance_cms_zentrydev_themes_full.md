@@ -694,3 +694,152 @@ Print (stdout):
 - Tip: preview another theme via `?preview_theme=sleek`
 
 > End of prompt.
+
+
+คุณทำถึงส่วนนี้ก่อนที่จะ ถึง limit
+
+
+● Bash(php artisan make:model Theme)
+  ⎿     INFO  Model [app/Models/Theme.php] created successfully.
+
+● Bash(php artisan make:model ThemeSetting)
+  ⎿     INFO  Model [app/Models/ThemeSetting.php] created successfully.
+
+● Read(app/Models/Theme.php)
+  ⎿  Read 12 lines
+
+● Update(app/Models/Theme.php)
+  ⎿  Updated app/Models/Theme.php with 38 additions                              
+        8    class Theme extends Model
+        9    {
+       10        use HasFactory;
+       11 +  
+       12 +      protected $fillable = [
+       13 +          'key',
+       14 +          'name',
+       15 +          'version',
+       16 +          'author',
+       17 +          'is_active',
+       18 +          'options',
+       19 +      ];
+       20 +  
+       21 +      protected $casts = [
+       22 +          'options' => 'array',
+       23 +          'is_active' => 'boolean',
+       24 +      ];
+       25 +  
+       26 +      /**
+       27 +       * Get theme settings
+       28 +       */
+       29 +      public function settings()
+       30 +      {
+       31 +          return $this->hasMany(ThemeSetting::class);
+       32 +      }
+       33 +  
+       34 +      /**
+       35 +       * Get global settings for this theme
+       36 +       */
+       37 +      public function globalSettings()
+       38 +      {
+       39 +          return $this->settings()->where('scope', 'global')->first();
+       40 +      }
+       41 +  
+       42 +      /**
+       43 +       * Scope to get active theme
+       44 +       */
+       45 +      public function scopeActive($query)
+       46 +      {
+       47 +          return $query->where('is_active', true);
+       48 +      }
+       49    }
+
+● Read(app/Models/ThemeSetting.php)
+  ⎿  Read 12 lines
+
+● Update(app/Models/ThemeSetting.php)
+  ⎿  Updated app/Models/ThemeSetting.php with 18 additions 
+        8    class ThemeSetting extends Model
+        9    {
+       10        use HasFactory;
+       11 +  
+       12 +      protected $fillable = [
+       13 +          'theme_id',
+       14 +          'scope',
+       15 +          'values',
+       16 +      ];
+       17 +  
+       18 +      protected $casts = [
+       19 +          'values' => 'array',
+       20 +      ];
+       21 +  
+       22 +      /**
+       23 +       * Get the theme that owns this setting
+       24 +       */
+       25 +      public function theme()
+       26 +      {
+       27 +          return $this->belongsTo(Theme::class);
+       28 +      }
+       29    }
+
+● Write(app/Services/ThemeManager.php)
+  ⎿  Wrote 114 lines to app/Services/ThemeManager.php
+     <?php
+     namespace App\Services;
+     use App\Models\Theme;
+     use Illuminate\Support\Facades\Cache;
+     class ThemeManager
+     {
+         /**
+     … +104 lines (ctrl+o to expand)
+
+● Read(app/Providers/AppServiceProvider.php)
+  ⎿  Read 25 lines
+
+● Update(app/Providers/AppServiceProvider.php)
+  ⎿  Updated app/Providers/AppServiceProvider.php with 3 additions and 1 removal               
+       11         */
+       12        public function register(): void
+       13        {
+       14 -          //
+       14 +          $this->app->singleton(\App\Services\ThemeManager::class, function ($app) {
+       15 +              return new \App\Services\ThemeManager();
+       16 +          });
+       17        }
+       18    
+       19        /**
+
+● Bash(mkdir -p
+      /home/aunji/internal_ai_lab/cms_zentrydev/resources/themes/{nova,sleek,minimal,classic,corporate,play}/{layouts,sections})
+  ⎿  (No content)
+
+● Now I'll create base layout and sections for each theme. Let me start with the Nova theme:
+
+● Write(resources/themes/nova/layouts/base.blade.php)
+  ⎿  Wrote 44 lines to resources/themes/nova/layouts/base.blade.php            
+     <!DOCTYPE html>
+     <html lang="en">
+     <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>@yield('title', 'Nova Theme')</title>
+         <script src="https://cdn.tailwindcss.com"></script>
+         <style>
+             {!! app(\App\Services\ThemeManager::class)->generateCssVars() !!}
+             body {
+     … +34 lines (ctrl+o to expand)
+
+● Due to the large number of files to create, let me use the Task tool to speed up the process:
+
+● Task(Create theme section files)
+  ⎿  Done (6 tool uses · 0 tokens · 1m 15s)                                                                                       
+
+● Task(Create Sleek theme files)
+  ⎿  Done (1 tool use · 0 tokens · 5.1s)                                                                                          
+
+● Task(Create Minimal theme files)
+  ⎿  Done (2 tool uses · 0 tokens · 9.5s)                                                                                         
+
+● Task(Create Classic, Corporate, Play themes)
+  ⎿  Done (1 tool use · 0 tokens · 19.6s)                                                                                         
+  ⎿  Session limit reached ∙ resets 4pm
+     /upgrade to increase your usage limit.
