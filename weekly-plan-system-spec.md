@@ -120,3 +120,29 @@ git add weekly-plan-system/
 git commit -m "chore: add Weekly Plan System spec and dev log"
 git push
 ```
+
+
+
+
+
+
+  Would you like me to continue with integrating projects into the Dashboard filters and plan forms?
+
+> 1. daily tasks add dropdown project and have add project link goto create new project 
+
+● I'll add a project dropdown to daily tasks and include a link to create new projects. Let me first check the current structure:
+
+● Search(pattern: "**/PlanEditor.tsx")
+  ⎿  Found 1 file (ctrl+o to expand)
+  ⎿  Session limit reached ∙ resets 4pm
+     /upgrade to increase your usage limit.
+
+> 2. add department page can CRUD 
+  ⎿  Session limit reached ∙ resets 4pm
+     /upgrade to increase your usage limit.
+
+> 3. Settings
+Name *
+Padungkiat Papuan
+Department *
+keep it 2 language and projects remove it from settings 
